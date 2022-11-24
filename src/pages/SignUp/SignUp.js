@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGoogle, FaGithub } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [signUpError, setSignUpError] = useState('');
-
+    console.log(process.env.REACT_APP_IMG_KE)
     const handleSignUp = data => {
         console.log(data)
     }
@@ -14,7 +15,7 @@ const SignUp = () => {
             <div className="hero-content w-[500px] flex-col ">
                 <div className="card flex-shrink-0 w-full shadow-2xl">
                     <form onSubmit={handleSubmit(handleSignUp)} className="card-body w-full">
-                        <h1 className="text-3xl font-bold text-secondary">Create Account</h1>
+                        <h1 className="text-3xl text-center font-bold text-secondary">Create Account</h1>
 
                         <div className="form-control">
                             <label className="">
@@ -64,14 +65,13 @@ const SignUp = () => {
                         <div className="form-control mt-6">
                             <button className="btn btn-primary text-white">Sign Up</button>
                         </div>
-
                         <div className="divider border-secondary text-secondary">Or Login With</div>
-
                     </form>
                     <div className='w-[80px] mx-auto flex  justify-between -mt-4 pb-4'>
                         <button><FaGoogle className='text-primary w-[25px] h-[25px]' /></button>
                         <button><FaGithub className='text-secondary w-[25px] h-[25px]' /></button>
                     </div>
+                    <p className='text-center py-5 text-secondary'>Already have an account? <Link className='text-primary' to='/login'>Login</Link></p>
                 </div>
             </div>
         </div>
