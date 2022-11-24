@@ -6,7 +6,7 @@ const AdvertisedItems = ({ details }) => {
     return (
         <div className="card  shadow-xl relative">
             <figure><img src={img} alt="Shoes" /></figure>
-            <div className="card-body">
+            <div className="card-body sm:mx-auto w-full">
                 <h2 className="card-title text-primary text-3xl">
                     {name}
                 </h2>
