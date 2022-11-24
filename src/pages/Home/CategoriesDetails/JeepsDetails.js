@@ -12,7 +12,7 @@ const JeepsDetails = ({ jeep }) => {
                 <p className='text-secondary'>Posted in: {posted_in} minutes ago</p>
                 <p className='text-secondary'>Used in: {used} years</p>
                 <div className="card-actions justify-center">
-                    <button className="btn btn-primary">Buy Now</button>
+                    <button className="btn btn-primary text-white">Book Now</button>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ const Jeeps = () => {
     return (
         <div>
             <div className='my-10'>
-                <h1 className='text-4xl text-center text-secondary font-bold'>All Used <span className='text-primary'>Jeeps</span></h1>
+                <h1 className='text-4xl text-center text-secondary font-bold'>All Used <span className='text-primary'>Cars</span></h1>
             </div>
             <div className='grid gap-5 lg:grid-cols-3 md:grid-cols-2'>
                 {
