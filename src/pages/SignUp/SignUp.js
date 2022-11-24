@@ -6,9 +6,26 @@ import { Link } from 'react-router-dom';
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [signUpError, setSignUpError] = useState('');
-    console.log(process.env.REACT_APP_IMG_KE)
+
     const handleSignUp = data => {
-        console.log(data)
+        
+        const image = data.image[0];
+        const formData = new FormData()
+        formData.append('image', image)
+        fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMG_KE}`, {
+            method: 'POST',
+            body: formData
+        })
+       .then(res => res.json())
+       .then(data => {
+        if(data.success === true) {
+            console.log(data.data.url)
+        }
+        
+       })
+        .catch(error => {
+            setSignUpError(error.message)
+        })
     }
     return (
         <div className="hero mt-14">
@@ -47,6 +64,19 @@ const SignUp = () => {
                                 <option defaultValue="User" value="User">User</option>
                                 <option>Seller</option>
                             </select>
+                        </div>
+
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text text-secondary font-semibold">Chose an Image</span>
+                            </label>
+                            <input
+                                {...register("image", {
+                                    required: true
+                                })}
+                                type="file"
+                                placeholder="image"
+                                className="input input-bordered border-primary text-secondary" />
                         </div>
 
                         <div className="form-control">
