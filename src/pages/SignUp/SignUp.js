@@ -1,3 +1,4 @@
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -16,8 +17,8 @@ const SignUp = () => {
     } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [signUpError, setSignUpError] = useState('');
-
-
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
     const handleSignUp = data => {
         setSignUpError('');
         const name = data.name;
@@ -55,6 +56,28 @@ const SignUp = () => {
             })
     };
 
+    const handleGoogleLogin = (Provider) => {
+        signInWithGoogle(googleProvider)
+        .then((result) => {
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => {
+            setSignUpError(error.message)
+        })
+    };
+
+    // github sign in
+    const handleGithubLogin = (Provider) => {
+        signInWithGithub(githubProvider)
+        .then((result) => {
+            const user = result.user;
+            console.log(user)
+        })
+        .catch(error => {
+            setSignUpError(error.message)
+        })
+    }
     // save users
     const saveUsers = (name, email, options) => {
         const users = { name, email, options };
@@ -145,8 +168,8 @@ const SignUp = () => {
                         <div className="divider border-secondary text-secondary">Or Login With</div>
                     </form>
                     <div className='w-[80px] mx-auto flex  justify-between -mt-4 pb-4'>
-                        <button><FaGoogle className='text-primary w-[25px] h-[25px]' /></button>
-                        <button><FaGithub className='text-secondary w-[25px] h-[25px]' /></button>
+                        <button onClick={handleGoogleLogin}><FaGoogle className='text-primary w-[25px] h-[25px]' /></button>
+                        <button onClick={handleGithubLogin}><FaGithub className='text-secondary w-[25px] h-[25px]' /></button>
                     </div>
                     <p className='text-center py-5 text-secondary'>Already have an account? <Link className='text-primary' to='/login'>Login</Link></p>
                 </div>
