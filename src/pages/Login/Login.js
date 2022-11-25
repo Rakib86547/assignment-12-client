@@ -1,13 +1,57 @@
-import React from 'react';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
+import useToken from '../../hooks/useToken/useToken';
 
 const Login = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-
+    const { register, handleSubmit } = useForm();
+    const {signIn, signInWithGoogle, signInWithGithub} = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+    const [userCreateEmail, setUserCreateEmail] = useState('');
+    const [token] = useToken(userCreateEmail);
+    if(token) {
+        navigate('/');
+    }
     const handleLogin = data => {
-        console.log(data)
+        const email = data.email;
+        const password = data.password;
+        setLoginError('');
+        signIn(email, password)
+        .then((result) => {
+            const user = result.user;
+            console.log(user)
+            setUserCreateEmail(email)
+        })
+        .catch(error => {
+            setLoginError(error.message);
+        })
+    };
+
+    const handleGoogleSignIn = (Provider) => {
+        signInWithGoogle(googleProvider)
+        .then(() => {
+            navigate(from, {replace: true});
+        })
+        .catch(error => {
+            setLoginError(error.message);
+        })
+    };
+    const handleGithubSignIn = (Provider) => {
+        signInWithGithub(githubProvider)
+        .then(() => {
+            navigate(from, {replace: true})
+        })
+        .catch(error => {
+            setLoginError(error.message)
+        })
     }
     return (
         <div className="hero mt-14">
@@ -46,8 +90,8 @@ const Login = () => {
                         <div className="divider border-secondary text-secondary">Or Login With</div>
                     </form>
                     <div className='w-[80px] mx-auto flex  justify-between -mt-4 pb-4'>
-                        <button><FaGoogle className='text-primary w-[25px] h-[25px]' /></button>
-                        <button><FaGithub className='text-secondary w-[25px] h-[25px]' /></button>
+                        <button onClick={handleGoogleSignIn}><FaGoogle className='text-primary w-[25px] h-[25px]' /></button>
+                        <button onClick={handleGithubSignIn}><FaGithub className='text-secondary w-[25px] h-[25px]' /></button>
                     </div>
                     <p className='text-center py-5 text-secondary'>Don`t have an account? <Link className='text-primary' to='/signup'>Sign Up</Link></p>
                 </div>

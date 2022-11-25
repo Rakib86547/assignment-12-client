@@ -4,6 +4,7 @@ import Jeeps from "../../pages/Home/CategoriesDetails/Jeeps";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
+import PrivetRoute from "../PrivetRoute/PrivetRoute";
 
 const router = createBrowserRouter([{
     path: '/',
@@ -15,7 +16,7 @@ const router = createBrowserRouter([{
         },
         {
             path: '/category/:id',
-            element: <Jeeps />,
+            element: <PrivetRoute><Jeeps /></PrivetRoute>,
             loader: ({params}) => fetch(`http://localhost:5000/all_categories/${params.id}`)
         },
         {

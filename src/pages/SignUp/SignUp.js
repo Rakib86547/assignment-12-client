@@ -3,8 +3,10 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaGoogle, FaGithub } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Loading/Spinner';
 import { AuthContext } from '../../context/AuthProvider';
+import useToken from '../../hooks/useToken/useToken';
 
 const SignUp = () => {
     const {
@@ -12,13 +14,21 @@ const SignUp = () => {
         signInWithGoogle,
         signInWithGithub,
         updateUser,
-        loading,
-        setLoading,
     } = useContext(AuthContext);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const [signUpError, setSignUpError] = useState('');
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
+    const [userCreateEmail, setUserCreateEmail] = useState('');
+    const [token] = useToken(userCreateEmail)
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
+
+    if(token) {
+        navigate('/');
+    }
     const handleSignUp = data => {
         setSignUpError('');
         const name = data.name;
@@ -43,16 +53,25 @@ const SignUp = () => {
                                 .then(() => {
                                     saveUsers(name, email, options)
                                     toast.success('Your account create successfully');
-
+                                    
                                 })
-                                .catch(error => { setSignUpError(error.message) })
+                                .catch(error => { 
+                                    setSignUpError(error.message)
+                                    
+                                    
+                                })
                         })
-                        .catch(error => { setSignUpError(error.message) })
+                        .catch(error => { 
+                            setSignUpError(error.message)
+                            
+                            
+                         })
                 }
 
             })
             .catch(error => {
                 setSignUpError(error.message)
+                
             })
     };
 
@@ -61,6 +80,7 @@ const SignUp = () => {
         .then((result) => {
             const user = result.user;
             console.log(user);
+            navigate('/')
         })
         .catch(error => {
             setSignUpError(error.message)
@@ -73,6 +93,7 @@ const SignUp = () => {
         .then((result) => {
             const user = result.user;
             console.log(user)
+            navigate('/')
         })
         .catch(error => {
             setSignUpError(error.message)
@@ -91,7 +112,7 @@ const SignUp = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                setUserCreateEmail(email)
             })
     }
     return (
@@ -163,7 +184,9 @@ const SignUp = () => {
                         }
 
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary text-white">Sign Up</button>
+                            <button className="btn btn-primary text-white">
+                               Sign Up
+                                </button>
                         </div>
                         <div className="divider border-secondary text-secondary">Or Login With</div>
                     </form>
