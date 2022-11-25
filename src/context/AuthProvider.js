@@ -8,11 +8,11 @@ const auth = getAuth(app)
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+  
     // create user with email & password
-    const createUser = (email, password) => {
+    const createUser = (email, password, options) => {
         setLoading(true)
-        return createUserWithEmailAndPassword(auth, email, password);
+        return createUserWithEmailAndPassword(auth, email, password, options);
     };
 
     // sign in with google 
@@ -30,7 +30,10 @@ const AuthProvider = ({ children }) => {
     // update user profile
     const updateUser = (name, photo) => {
         setLoading(true)
-        return updateProfile(auth.currentUser, name, photo);
+        return updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: photo,
+        });
     };
 
 
@@ -57,7 +60,7 @@ const AuthProvider = ({ children }) => {
         logOut,
         user,
         loading,
-        setLoading
+        setLoading,
     }
     return (
         <AuthContext.Provider value={authInfo}>

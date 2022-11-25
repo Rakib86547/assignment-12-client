@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
 
 const SignUp = () => {
+    const {
+        createUser,
+        signInWithGoogle,
+        signInWithGithub,
+        updateUser,
+        loading,
+        setLoading,
+    } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [signUpError, setSignUpError] = useState('');
 
+
     const handleSignUp = data => {
-        
+        setSignUpError('');
+        const name = data.name;
+        const email = data.email;
+        const options = data.options;
+        const password = data.password;
         const image = data.image[0];
         const formData = new FormData()
         formData.append('image', image)
@@ -16,16 +31,45 @@ const SignUp = () => {
             method: 'POST',
             body: formData
         })
-       .then(res => res.json())
-       .then(data => {
-        if(data.success === true) {
-            console.log(data.data.url)
-        }
-        
-       })
-        .catch(error => {
-            setSignUpError(error.message)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    createUser(email, password)
+                        .then((result) => {
+                            const user = result.user;
+                            console.log(user)
+                            updateUser(name, data.data.url)
+                                .then(() => {
+                                    saveUsers(name, email, options)
+                                    toast.success('Your account create successfully');
+
+                                })
+                                .catch(error => { setSignUpError(error.message) })
+                        })
+                        .catch(error => { setSignUpError(error.message) })
+                }
+
+            })
+            .catch(error => {
+                setSignUpError(error.message)
+            })
+    };
+
+    // save users
+    const saveUsers = (name, email, options) => {
+        const users = { name, email, options };
+        console.log(users)
+        fetch('http://localhost:5000/users', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(users)
         })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
     }
     return (
         <div className="hero mt-14">
@@ -61,8 +105,8 @@ const SignUp = () => {
                                 <span className="label-text text-secondary font-semibold">Create as a</span>
                             </label>
                             <select {...register("options")} className="select text-secondary select-bordered w-full border-primary">
-                                <option defaultValue="User" value="User">User</option>
-                                <option>Seller</option>
+                                <option value="User">User</option>
+                                <option value="Seller">Seller</option>
                             </select>
                         </div>
 
@@ -91,6 +135,9 @@ const SignUp = () => {
                                 placeholder="password"
                                 className="input input-bordered border-primary text-secondary" />
                         </div>
+                        {
+                            signUpError && <p className='text-red-500'>{signUpError}</p>
+                        }
 
                         <div className="form-control mt-6">
                             <button className="btn btn-primary text-white">Sign Up</button>
