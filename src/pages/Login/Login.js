@@ -83,6 +83,9 @@ const Login = () => {
                                 placeholder="password"
                                 className="input input-bordered border-primary text-secondary" />
                         </div>
+                        {
+                            loginError && <p className='text-red-500'>{loginError}</p>
+                        }
 
                         <div className="form-control mt-6">
                             <button className="btn btn-primary text-white">Login</button>

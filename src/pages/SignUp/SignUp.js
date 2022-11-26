@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Spinner from '../../components/Loading/Spinner';
 import { AuthContext } from '../../context/AuthProvider';
 import useToken from '../../hooks/useToken/useToken';
 
@@ -80,7 +79,7 @@ const SignUp = () => {
         .then((result) => {
             const user = result.user;
             console.log(user);
-            navigate('/')
+            navigate(from, {replace: true})
         })
         .catch(error => {
             setSignUpError(error.message)

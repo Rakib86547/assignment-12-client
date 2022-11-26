@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../../Layout/Main/Main";
-import Jeeps from "../../pages/Home/CategoriesDetails/Jeeps";
+import Blog from "../../pages/Blog/Blog";
+import CarDetails from "../../pages/Cars/CategoriesDetails/CarDetails";
+import Cars from "../../pages/Cars/CategoriesDetails/Cars";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
@@ -15,8 +17,8 @@ const router = createBrowserRouter([{
             element: <Home />
         },
         {
-            path: '/category/:id',
-            element: <PrivetRoute><Jeeps /></PrivetRoute>,
+            path: '/cars_details/:id',
+            element: <Cars></Cars>,
             loader: ({params}) => fetch(`http://localhost:5000/all_categories/${params.id}`)
         },
         {
@@ -27,6 +29,10 @@ const router = createBrowserRouter([{
             path: '/signup',
             element: <SignUp />
         },
+        {
+            path: '/blog',
+            element: <Blog />
+        }
     ]
 }]);
 
