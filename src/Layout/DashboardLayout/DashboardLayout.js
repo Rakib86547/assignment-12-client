@@ -1,5 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthProvider';
 import Navbar from '../../pages/Share/Navbar/Navbar';
@@ -8,16 +7,29 @@ import SellerMenu from './sellerMenu';
 import UserMenu from './useMenu';
 
 const DashboardLayout = () => {
+    const [role, setRole] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     const { user } = useContext(AuthContext);
-    const { data: role } = useQuery({
-        queryKey: ['role'],
-        queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/user/${user?.email}`)
-            const data = await res.json()
-            return data.role
-        }
-    })
- 
+    // const { data: role } = useQuery({
+    //     queryKey: ['role'],
+    //     queryFn: async () => {
+    //         const res = await fetch(`http://localhost:5000/user/${user?.email}`)
+    //         const data = await res.json()
+    //         return data.role
+    //     }
+    // })
+
+    useEffect(() => {
+        setLoading(true)
+        fetch(`http://localhost:5000/user/${user?.email}`)
+            .then(res => res.json())
+            .then(data => {
+                setRole(data.role);
+                setLoading(false)
+            })
+    }, [user])
+    console.log(role);
     return (
         <div>
             <Navbar></Navbar>
@@ -26,17 +38,22 @@ const DashboardLayout = () => {
                 <div className="drawer-content ml-5">
                     <Outlet></Outlet>
                 </div>
-                <div className="drawer-side bg-gray-200 text-secondary">
+                <div className="drawer-side text-secondary">
                     <label htmlFor="car-drawer" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-75 font-semibold">
-                        {
-                            role && role !== 'user' ? <>
+                    <ul className="menu  p-4 bg-gray-200 w-75 font-semibold">
+                              {
+                                loading ? " " : <>
+                                
                                 {
-                                    role === 'admin' ? <AdminMenu /> : <UserMenu />
-                                }
-                            </> : <SellerMenu />
-                        }
-                       
+                                        role && role !== 'Seller' ? <>
+                                            {
+                                                role === 'admin' ? <AdminMenu /> : <SellerMenu />
+                                            }
+                                        </> : <UserMenu />
+                                    } 
+                                </>
+                              }
+                                                                                      
                     </ul>
                 </div>
             </div >
