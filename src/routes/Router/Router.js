@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../../Layout/DashboardLayout/DashboardLayout";
 import Main from "../../Layout/Main/Main";
 import Blog from "../../pages/Blog/Blog";
-import CarDetails from "../../pages/Cars/CategoriesDetails/CarDetails";
 import Cars from "../../pages/Cars/CategoriesDetails/Cars";
+import MyOrders from "../../pages/Dashboard/Dasboard/MyOrders";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
-import PrivetRoute from "../PrivetRoute/PrivetRoute";
+import PrivetRoute from '../PrivetRoute/PrivetRoute'
 
 const router = createBrowserRouter([{
     path: '/',
@@ -18,8 +19,8 @@ const router = createBrowserRouter([{
         },
         {
             path: '/cars_details/:id',
-            element: <Cars></Cars>,
-            loader: ({params}) => fetch(`http://localhost:5000/all_categories/${params.id}`)
+            element: <PrivetRoute><Cars></Cars></PrivetRoute>,
+            loader: ({ params }) => fetch(`http://localhost:5000/all_categories/${params.id}`)
         },
         {
             path: '/login',
@@ -34,6 +35,19 @@ const router = createBrowserRouter([{
             element: <Blog />
         }
     ]
-}]);
+},
+{
+    path: '/dashboard',
+    element: <DashboardLayout />,
+    children: [
+        {
+            path: '/dashboard',
+            element: <MyOrders />
+
+        },
+    ]
+}
+
+]);
 
 export default router;

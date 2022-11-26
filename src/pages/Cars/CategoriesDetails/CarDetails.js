@@ -1,5 +1,4 @@
 import React from 'react';
-import BookingModal from '../../../components/BookingModal/BookingModal';
 
 const CarDetails = ({ car, setBookingCar }) => {
     const { image, seller_name, original_price, resell_price, posted_in, name, used } = car;

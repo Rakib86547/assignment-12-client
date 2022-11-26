@@ -5,7 +5,6 @@ import CarDetails from './CarDetails';
 
 const Cars = () => {
     const [bookingCar, setBookingCar] = useState(null);
-    
     const cars = useLoaderData()
     return (
         <div>
@@ -25,6 +24,7 @@ const Cars = () => {
                 {
                     bookingCar && <BookingModal
                     bookingCar={bookingCar}
+                    setBookingCar={setBookingCar}
                     ></BookingModal>
                 }
             

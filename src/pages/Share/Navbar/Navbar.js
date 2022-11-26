@@ -16,7 +16,7 @@ const Navbar = () => {
             <li><Link to='/blog'>Blog</Link></li>
             {
                 user?.email ? <>
-                <li><Link to='/'>Dashboard</Link></li>
+                <li><Link to='/dashboard'>Dashboard</Link></li>
                 <li onClick={handleLogOut} className='bg-primary text-white rounded-md'><Link to='/logout'>Log Out</Link></li>
                 </>
                 :
