@@ -32,7 +32,7 @@ const SignUp = () => {
         setSignUpError('');
         const name = data.name;
         const email = data.email;
-        const options = data.options;
+        const role = data.options;
         const password = data.password;
         const image = data.image[0];
         const formData = new FormData()
@@ -50,7 +50,7 @@ const SignUp = () => {
                             console.log(user)
                             updateUser(name, data.data.url)
                                 .then(() => {
-                                    saveUsers(name, email, options)
+                                    saveUsers(name, email, role)
                                     toast.success('Your account create successfully');
                                     
                                 })
@@ -99,8 +99,8 @@ const SignUp = () => {
         })
     }
     // save users
-    const saveUsers = (name, email, options) => {
-        const users = { name, email, options };
+    const saveUsers = (name, email, role) => {
+        const users = { name, email, role };
         console.log(users)
         fetch('http://localhost:5000/users', {
             method: "POST",

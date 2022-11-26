@@ -1,8 +1,23 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import React, { useContext } from 'react';
+import { Outlet } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
 import Navbar from '../../pages/Share/Navbar/Navbar';
+import AdminMenu from './adminMenu';
+import SellerMenu from './sellerMenu';
+import UserMenu from './useMenu';
 
 const DashboardLayout = () => {
+    const { user } = useContext(AuthContext);
+    const { data: role } = useQuery({
+        queryKey: ['role'],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/user/${user?.email}`)
+            const data = await res.json()
+            return data.role
+        }
+    })
+ 
     return (
         <div>
             <Navbar></Navbar>
@@ -14,11 +29,18 @@ const DashboardLayout = () => {
                 <div className="drawer-side bg-gray-200 text-secondary">
                     <label htmlFor="car-drawer" className="drawer-overlay"></label>
                     <ul className="menu p-4 w-75 font-semibold">
-                        <li><Link to='/dashboard'>My Orders</Link></li>
+                        {
+                            role && role !== 'user' ? <>
+                                {
+                                    role === 'admin' ? <AdminMenu /> : <UserMenu />
+                                }
+                            </> : <SellerMenu />
+                        }
+                       
                     </ul>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
