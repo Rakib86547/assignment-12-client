@@ -17,31 +17,39 @@ const MyOrders = () => {
             return data
         }
     })
+    
     return (
         <div>
             <h1 className='text-3xl font-semibold text-secondary'>My Orders: {orders.length}</h1>
 
 
             <div className="overflow-x-auto">
-                <table className="table table-zebra w-full">
+                <table className="table table-zebra w-full text-center text-secondary">
                     <thead>
-                        <tr>
+                        <tr className='text-white'>
                             <th></th>
-                            <th>Patient</th>
-                            <th>Treatment</th>
-                            <th>Date</th>
-                            <th>Time</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Price</th>
                             <th>Payment</th>
                         </tr>
                     </thead>
                     {
-                        orders.map((order, i) =>  <tbody key={i}>
-                            <tr>
-                                <th>{i +1}</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                        orders.map((order, i) => <tbody key={i}>
+                            <tr className='border'>
+                                <th>{i + 1}</th>
+                                <td>
+                                    <div className="avatar">
+                                        <div className="w-12 border-primary border-2 rounded-full">
+                                            <img src={order.image} alt='' />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{order.itemName}</td>
+                                <td>{order.price}</td>
+                                <td>
+                                    <button className='btn btn-xs btn-primary'>Pay</button>
+                                </td>
                             </tr>
                         </tbody>)
                     }
