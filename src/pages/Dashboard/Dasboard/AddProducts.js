@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthProvider';
 
 const AddProducts = () => {
@@ -8,6 +9,7 @@ const AddProducts = () => {
     
     const { register, handleSubmit } = useForm();
     const [productsImage, setProductsImage] = useState('');
+    const navigate = useNavigate();
     const handleAddProduct = data => {
         // data.preventDefault();
         const productsName = data.name;
@@ -50,6 +52,7 @@ const AddProducts = () => {
                         .then(data => {
                             if (data.acknowledged) {
                                 toast.success('Your Products add successfully')
+                                navigate('/dashboard/my_products')
                             }
                         })
                 }
