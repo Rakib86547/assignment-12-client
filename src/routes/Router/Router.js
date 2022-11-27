@@ -11,12 +11,14 @@ import MyProducts from "../../pages/Dashboard/Dasboard/MyProducts";
 import Welcome from "../../pages/Dashboard/Dasboard/Welcome";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
+import Error from "../../pages/Share/Error/Error";
 import SignUp from "../../pages/SignUp/SignUp";
 import PrivetRoute from '../PrivetRoute/PrivetRoute'
 
 const router = createBrowserRouter([{
     path: '/',
     element: <Main />,
+    errorElement: <Error />,
     children: [
         {
             path: '/',
