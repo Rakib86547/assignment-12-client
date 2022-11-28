@@ -25,7 +25,7 @@ const BookingModal = ({ bookingCar, setBookingCar }) => {
             phone,
             image
         };
-        fetch('http://localhost:5000/bookings', {
+        fetch('https://the-car-masters-server.vercel.app/bookings', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

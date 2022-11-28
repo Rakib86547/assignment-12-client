@@ -40,7 +40,7 @@ const AddProducts = () => {
                 if (data.success === true) {
                     setProductsImage(data.data.url)
 
-                    fetch('http://localhost:5000/seller_bookings', {
+                    fetch('https://the-car-masters-server.vercel.app/seller_bookings', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json',

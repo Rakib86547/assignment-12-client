@@ -102,7 +102,7 @@ const SignUp = () => {
     const saveUsers = (name, email, role) => {
         const users = { name, email, role };
         console.log(users)
-        fetch('http://localhost:5000/users', {
+        fetch('https://the-car-masters-server.vercel.app/users', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

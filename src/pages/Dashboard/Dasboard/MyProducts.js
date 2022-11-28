@@ -8,7 +8,7 @@ const MyProducts = () => {
     const { data: products = [] } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/seller_bookings?email=${user?.email}`)
+            const res = await fetch(`https://the-car-masters-server.vercel.app/seller_bookings?email=${user?.email}`)
             const data = await res.json()
             return data
         }
@@ -16,7 +16,7 @@ const MyProducts = () => {
     
     const handleUpdate = (id) => {
         
-        fetch(`http://localhost:5000/sellers${id}`, {
+        fetch(`https://the-car-masters-server.vercel.app/sellers${id}`, {
             method: "PUT",
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

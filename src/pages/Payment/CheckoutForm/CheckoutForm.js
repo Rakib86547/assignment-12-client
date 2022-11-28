@@ -15,7 +15,7 @@ const CheckoutForm = ({ bookings }) => {
 
     useEffect(() => {
 
-        fetch("http://localhost:5000/create_payment_intent", {
+        fetch("https://the-car-masters-server.vercel.app/create_payment_intent", {
             method: "POST",
             headers: {
                 'content-type': 'application/json',
@@ -83,7 +83,7 @@ const CheckoutForm = ({ bookings }) => {
                 card
             }
 
-            fetch('http://localhost:5000/payment', {
+            fetch('https://the-car-masters-server.vercel.app/payment', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',

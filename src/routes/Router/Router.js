@@ -29,7 +29,7 @@ const router = createBrowserRouter([{
         {
             path: '/cars_details/:id',
             element: <PrivetRoute><Cars></Cars></PrivetRoute>,
-            loader: ({ params }) => fetch(`http://localhost:5000/all_categories/${params.id}`)
+            loader: ({ params }) => fetch(`https://the-car-masters-server.vercel.app/all_categories/${params.id}`)
         },
         {
             path: '/login',
@@ -81,7 +81,7 @@ const router = createBrowserRouter([{
         {
             path: '/dashboard/payment/:id',
             element: <PrivetRoute><Payment /></PrivetRoute>,
-            loader: ({params}) => fetch(`http://localhost:5000/payment/${params.id}`)
+            loader: ({params}) => fetch(`https://the-car-masters-server.vercel.app/payment/${params.id}`)
         },
     ]
 }
