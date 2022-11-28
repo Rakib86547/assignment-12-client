@@ -11,8 +11,10 @@ import MyProducts from "../../pages/Dashboard/Dasboard/MyProducts";
 import Welcome from "../../pages/Dashboard/Dasboard/Welcome";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
+import Payment from "../../pages/Payment/Payment";
 import Error from "../../pages/Share/Error/Error";
 import SignUp from "../../pages/SignUp/SignUp";
+import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivetRoute from '../PrivetRoute/PrivetRoute'
 
 const router = createBrowserRouter([{
@@ -51,27 +53,35 @@ const router = createBrowserRouter([{
             path: '/dashboard',
             element: <Welcome />
         },
+        // {
+        //     path: '/dashboard',
+        //     element: <MyOrders />
+        // },
         {
             path: '/dashboard/my_orders',
-            element: <MyOrders />
-
+            element: <PrivetRoute><MyOrders /></PrivetRoute>
         },
         
         {
             path: '/dashboard/add_products',
-            element: <AddProducts />
+            element: <PrivetRoute><AddProducts /></PrivetRoute>
         },
         {
             path: '/dashboard/my_products',
-            element: <MyProducts />
+            element: <PrivetRoute><MyProducts /></PrivetRoute>
         },
         {
             path: '/dashboard/all_sellers',
-            element: <AllSellers />
+            element: <AdminRoute><AllSellers /></AdminRoute>
         },
         {
             path: '/dashboard/all_buyers',
-            element: <AllBuyers />
+            element:<AdminRoute> <AllBuyers /></AdminRoute>
+        },
+        {
+            path: '/dashboard/payment/:id',
+            element: <PrivetRoute><Payment /></PrivetRoute>,
+            loader: ({params}) => fetch(`http://localhost:5000/payment/${params.id}`)
         },
     ]
 }

@@ -11,14 +11,7 @@ const DashboardLayout = () => {
     const [loading, setLoading] = useState(false);
 
     const { user } = useContext(AuthContext);
-    // const { data: role } = useQuery({
-    //     queryKey: ['role'],
-    //     queryFn: async () => {
-    //         const res = await fetch(`http://localhost:5000/user/${user?.email}`)
-    //         const data = await res.json()
-    //         return data.role
-    //     }
-    // })
+
 
     useEffect(() => {
         setLoading(true)
@@ -27,6 +20,7 @@ const DashboardLayout = () => {
             .then(data => {
                 setRole(data.role);
                 setLoading(false)
+                console.log(data.role)
             })
     }, [user])
     console.log(role);
@@ -42,10 +36,10 @@ const DashboardLayout = () => {
                     <label htmlFor="car-drawer" className="drawer-overlay"></label>
                     <ul className="menu  p-4 bg-gray-200 w-75 font-semibold">
                               {
-                                loading ? " " : <>
+                                loading ? ' ' : <>
                                 
                                 {
-                                        role && role !== 'Seller' ? <>
+                                        role && role !== 'User' ? <>
                                             {
                                                 role === 'admin' ? <AdminMenu /> : <SellerMenu />
                                             }

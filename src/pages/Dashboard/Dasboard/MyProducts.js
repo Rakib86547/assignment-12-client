@@ -14,6 +14,19 @@ const MyProducts = () => {
         }
     })
     
+    const handleUpdate = (id) => {
+        
+        fetch(`http://localhost:5000/sellers${id}`, {
+            method: "PUT",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+    }
     return (
         <div>
             <h1 className='text-center text-3xl text-secondary'>My Products</h1>
@@ -22,18 +35,18 @@ const MyProducts = () => {
                 <table className="table table-zebra w-full text-center text-secondary">
                     <thead>
                         <tr className='text-white'>
-                            
+
                             <th>Image</th>
                             <th>Title</th>
                             <th>Price</th>
-                            <th>Payment</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     {
                         products.map((product, i) => <tbody key={product._id}>
                             <tr className='border'>
-                                
+
                                 <td>
                                     <div className="avatar">
                                         <div className="w-12 border-primary border-2 rounded-full">
@@ -44,11 +57,19 @@ const MyProducts = () => {
                                 <td>{product.productsName}</td>
                                 <td>{product.price}</td>
                                 <td>
-                                    <button className='btn btn-xs btn-warning'>Unsold</button>
+                                    {
+                                        !product.status ? <button onClick={() => handleUpdate(product._id)} className='btn btn-xs btn-success'>
+                                            Available
+                                        </button>
+                                            :
+                                            <>
+                                                {
+                                                   product.status && product.status === 'unsold' && <button className='btn btn-xs btn-warning'>Unsold</button>
+                                                }
+                                            </>
+                                    }
                                 </td>
-                                <td>
-                                    <button className='btn btn-xs btn-primary'>Delete</button>
-                                </td>
+
                             </tr>
                         </tbody>)
                     }
