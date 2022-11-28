@@ -34,7 +34,7 @@ const DashboardLayout = () => {
                 </div>
                 <div className="drawer-side text-secondary">
                     <label htmlFor="car-drawer" className="drawer-overlay"></label>
-                    <ul className="menu  p-4 bg-gray-200 w-75 font-semibold">
+                    <ul className="menu  p-4 bg-gray-200 w-75 sm:w-36 font-semibold">
                               {
                                 loading ? ' ' : <>
                                 
