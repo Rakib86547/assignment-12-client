@@ -19,7 +19,7 @@ const Navbar = () => {
             {
                 user?.email ? <>
                 <li><Link to='/dashboard'>Dashboard</Link></li>
-                <li onClick={handleLogOut} className='bg-primary text-white rounded-md'><Link to='/logout'>Log Out</Link></li>
+                <li onClick={handleLogOut} className='bg-primary text-white rounded-md'><button>Log Out</button></li>
                 </>
                 :
                 <li className='bg-primary text-white rounded-md'><Link to='/login'>Login</Link></li>
