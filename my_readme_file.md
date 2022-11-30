@@ -5,3 +5,5 @@
 5. payment system is smooth
 
 Live Link: https://the-car-master.web.app/
+admin email: robin@gmail.com
+admin password: 123456
