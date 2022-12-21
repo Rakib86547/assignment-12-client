@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Loading/Spinner';
 import { AuthContext } from '../../context/AuthProvider';
 import useToken from '../../hooks/useToken/useToken';
 
@@ -14,6 +15,7 @@ const SignUp = () => {
         signInWithGithub,
         updateUser,
     } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit } = useForm();
     const [signUpError, setSignUpError] = useState('');
     const googleProvider = new GoogleAuthProvider();
@@ -25,10 +27,11 @@ const SignUp = () => {
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
 
-    if(token) {
+    if (token) {
         navigate('/');
     }
     const handleSignUp = data => {
+        setLoading(true)
         setSignUpError('');
         const name = data.name;
         const email = data.email;
@@ -52,51 +55,50 @@ const SignUp = () => {
                                 .then(() => {
                                     saveUsers(name, email, role)
                                     toast.success('Your account create successfully');
-                                    
+                                    setLoading(false)
                                 })
-                                .catch(error => { 
-                                    setSignUpError(error.message)
-                                    
-                                    
+                                .catch(error => {
+                                    setSignUpError(error.message);
+                                    setLoading(false)
                                 })
                         })
-                        .catch(error => { 
+                        .catch(error => {
                             setSignUpError(error.message)
-                            
-                            
-                         })
+                            setLoading(false)
+                        })
                 }
 
             })
             .catch(error => {
                 setSignUpError(error.message)
-                
+                setLoading(false)
             })
+
     };
 
     const handleGoogleLogin = (Provider) => {
         signInWithGoogle(googleProvider)
-        .then((result) => {
-            const user = result.user;
-            console.log(user);
-            navigate(from, {replace: true})
-        })
-        .catch(error => {
-            setSignUpError(error.message)
-        })
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+                navigate(from, { replace: true })
+            })
+            .catch(error => {
+                setSignUpError(error.message)
+            })
     };
 
     // github sign in
     const handleGithubLogin = (Provider) => {
         signInWithGithub(githubProvider)
-        .then((result) => {
-            const user = result.user;
-            console.log(user)
-            navigate('/')
-        })
-        .catch(error => {
-            setSignUpError(error.message)
-        })
+            .then((result) => {
+                const user = result.user;
+                console.log(user)
+                navigate('/')
+            })
+            .catch(error => {
+                setSignUpError(error.message)
+            })
     }
     // save users
     const saveUsers = (name, email, role) => {
@@ -184,8 +186,8 @@ const SignUp = () => {
 
                         <div className="form-control mt-6">
                             <button className="btn btn-primary text-white">
-                               Sign Up
-                                </button>
+                                {loading ? <Spinner /> : 'Sign Up'}
+                            </button>
                         </div>
                         <div className="divider border-secondary text-secondary">Or Login With</div>
                     </form>

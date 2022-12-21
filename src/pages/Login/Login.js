@@ -3,12 +3,14 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Loading/Spinner';
 import { AuthContext } from '../../context/AuthProvider';
 import useToken from '../../hooks/useToken/useToken';
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
     const {signIn, signInWithGoogle, signInWithGithub} = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,6 +23,7 @@ const Login = () => {
         navigate('/');
     }
     const handleLogin = data => {
+        setLoading(true)
         const email = data.email;
         const password = data.password;
         setLoginError('');
@@ -32,6 +35,7 @@ const Login = () => {
         })
         .catch(error => {
             setLoginError(error.message);
+            setLoading(false);
         })
     };
 
@@ -88,7 +92,9 @@ const Login = () => {
                         }
 
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary text-white">Login</button>
+                            <button className="btn btn-primary text-white">
+                                {loading ? <Spinner /> : 'Login'}
+                                </button>
                         </div>
                         <div className="divider border-secondary text-secondary">Or Login With</div>
                     </form>
